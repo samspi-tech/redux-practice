@@ -4,7 +4,16 @@ export type InitialBalanceState = {
     loanPurpose: string;
 };
 
-export type BalanceAction = {
-    type: 'balance/deposit' | 'balance/withdraw';
-    payload: number;
-};
+export type BalanceAction =
+    | {
+          type: 'balance/deposit' | 'balance/withdraw';
+          payload: number;
+      }
+    | {
+          type: 'balance/requestLoan';
+          payload: {
+              purpose: string;
+              amount: number;
+          };
+      }
+    | { type: 'balance/payLoan' };
