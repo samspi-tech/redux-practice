@@ -1,19 +1,17 @@
 import { createStore } from 'redux';
 import { balanceReducer } from './balanceReducer';
+import { deposit, payLoan, requestLoan, withdraw } from './balanceActions';
 
 const store = createStore(balanceReducer);
 
-store.dispatch({ type: 'balance/deposit', payload: 500 });
+store.dispatch(deposit(500));
 console.log(store.getState());
 
-store.dispatch({ type: 'balance/withdraw', payload: 250 });
+store.dispatch(withdraw(50));
 console.log(store.getState());
 
-store.dispatch({
-    type: 'balance/requestLoan',
-    payload: { amount: 1000, purpose: 'Buy brand new CPU' },
-});
+store.dispatch(requestLoan(1000, 'Buy new CPU'));
 console.log(store.getState());
 
-store.dispatch({ type: 'balance/payLoan' });
+store.dispatch(payLoan());
 console.log(store.getState());
