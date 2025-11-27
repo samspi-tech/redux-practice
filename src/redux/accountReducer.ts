@@ -1,26 +1,26 @@
-import type { BalanceAction, InitialBalanceState } from './types';
+import type { AccountAction, InitialAccountState } from './types';
 
-const initialBalanceState: InitialBalanceState = {
+const initialBalanceState: InitialAccountState = {
     balance: 0,
     loan: 0,
     loanPurpose: '',
 };
 
-const balanceReducer = (state = initialBalanceState, action: BalanceAction) => {
+const balanceReducer = (state = initialBalanceState, action: AccountAction) => {
     switch (action.type) {
-        case 'balance/deposit': {
+        case 'account/deposit': {
             return {
                 ...state,
                 balance: state.balance + action.payload,
             };
         }
-        case 'balance/withdraw': {
+        case 'account/withdraw': {
             return {
                 ...state,
                 balance: state.balance - action.payload,
             };
         }
-        case 'balance/requestLoan': {
+        case 'account/requestLoan': {
             const hasLoan = state.loan > 0;
             if (hasLoan) return state;
 
@@ -31,7 +31,7 @@ const balanceReducer = (state = initialBalanceState, action: BalanceAction) => {
                 balance: state.balance + action.payload.amount,
             };
         }
-        case 'balance/payLoan': {
+        case 'account/payLoan': {
             return {
                 ...state,
                 loan: 0,

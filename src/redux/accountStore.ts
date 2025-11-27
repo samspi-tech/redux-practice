@@ -1,6 +1,6 @@
 import { createStore } from 'redux';
-import { balanceReducer } from './balanceReducer';
-import { deposit, payLoan, requestLoan, withdraw } from './balanceActions';
+import { balanceReducer } from './accountReducer';
+import { deposit, payLoan, requestLoan, withdraw } from './accountActions';
 
 const store = createStore(balanceReducer);
 

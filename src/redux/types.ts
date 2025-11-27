@@ -1,19 +1,19 @@
-export type InitialBalanceState = {
+export type InitialAccountState = {
     balance: number;
     loan: number;
     loanPurpose: string;
 };
 
-export type BalanceAction =
+export type AccountAction =
     | {
-          type: 'balance/deposit' | 'balance/withdraw';
+          type: 'account/deposit' | 'account/withdraw';
           payload: number;
       }
     | {
-          type: 'balance/requestLoan';
+          type: 'account/requestLoan';
           payload: {
               purpose: string;
               amount: number;
           };
       }
-    | { type: 'balance/payLoan' };
+    | { type: 'account/payLoan' };
