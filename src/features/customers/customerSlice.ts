@@ -6,7 +6,7 @@ const initialCustomerState: InitialCustomerState = {
     createdAt: '',
 };
 
-export const customerReducer = (
+const customerReducer = (
     state = initialCustomerState,
     action: CustomerAction
 ) => {
@@ -30,3 +30,26 @@ export const customerReducer = (
         }
     }
 };
+
+export const createCustomer = (
+    fullName: string,
+    nationalId: string
+): CustomerAction => {
+    return {
+        type: 'customer/createCustomer',
+        payload: {
+            fullName,
+            nationalId,
+            createdAt: new Date().toISOString(),
+        },
+    };
+};
+
+export const updateName = (fullName: string): CustomerAction => {
+    return {
+        type: 'customer/updateName',
+        payload: fullName,
+    };
+};
+
+export default customerReducer;

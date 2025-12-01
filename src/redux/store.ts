@@ -1,29 +1,12 @@
-import { createStore } from 'redux';
-import {
-    deposit,
-    payLoan,
-    requestLoan,
-    withdraw,
-} from './account/accountActions';
-import { rootReducer } from './rootReducer';
-import { createCustomer, updateName } from './customer/customerActions';
+import { combineReducers, createStore } from 'redux';
+import accountReducer from '../features/accounts/accountSlice';
+import customerReducer from '../features/customers/customerSlice';
 
-const store = createStore(rootReducer);
+const rootReducers = combineReducers({
+    account: accountReducer,
+    customer: customerReducer,
+});
 
-store.dispatch(deposit(500));
-console.log(store.getState());
+const store = createStore(rootReducers);
 
-store.dispatch(withdraw(50));
-console.log(store.getState());
-
-store.dispatch(requestLoan(1000, 'Buy new CPU'));
-console.log(store.getState());
-
-store.dispatch(payLoan());
-console.log(store.getState());
-
-store.dispatch(createCustomer('Mario Rossi', 'ABC123'));
-console.log(store.getState());
-
-store.dispatch(updateName('Luigi Verdi'));
-console.log(store.getState());
+export default store;
