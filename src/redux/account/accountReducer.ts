@@ -6,7 +6,10 @@ const initialBalanceState: InitialAccountState = {
     loanPurpose: '',
 };
 
-const balanceReducer = (state = initialBalanceState, action: AccountAction) => {
+export const accountReducer = (
+    state = initialBalanceState,
+    action: AccountAction
+) => {
     switch (action.type) {
         case 'account/deposit': {
             return {
@@ -44,5 +47,3 @@ const balanceReducer = (state = initialBalanceState, action: AccountAction) => {
         }
     }
 };
-
-export { initialBalanceState, balanceReducer };
