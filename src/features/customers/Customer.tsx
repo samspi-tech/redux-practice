@@ -1,8 +1,7 @@
-import { useSelector } from 'react-redux';
-import type { RootState } from '../../utils/types';
+import { useAppSelector } from '../../redux/hooks';
 
 const Customer = () => {
-    const customer = useSelector((store: RootState) => store.customer);
+    const customer = useAppSelector((state) => state.customer);
 
     return <h2>👋 Welcome, {customer.fullName}</h2>;
 };
