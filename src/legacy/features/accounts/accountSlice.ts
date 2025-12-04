@@ -1,14 +1,14 @@
 import type { AppThunk } from '../../redux/types';
 import type { AccountAction, AccountState } from './types';
 
-const initialBalanceState: AccountState = {
+const initialState: AccountState = {
     balance: 0,
     loan: 0,
     loanPurpose: '',
     isLoading: false,
 };
 
-const accountReducer = (state = initialBalanceState, action: AccountAction) => {
+const accountReducer = (state = initialState, action: AccountAction) => {
     switch (action.type) {
         case 'account/deposit': {
             return {

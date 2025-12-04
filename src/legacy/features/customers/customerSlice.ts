@@ -1,15 +1,12 @@
 import type { CustomerAction, CustomerState } from './types';
 
-const initialCustomerState: CustomerState = {
+const initialState: CustomerState = {
     fullName: '',
     nationalId: '',
     createdAt: '',
 };
 
-const customerReducer = (
-    state = initialCustomerState,
-    action: CustomerAction
-) => {
+const customerReducer = (state = initialState, action: CustomerAction) => {
     switch (action.type) {
         case 'customer/createCustomer': {
             return {
