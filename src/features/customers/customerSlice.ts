@@ -1,6 +1,6 @@
-import type { CustomerAction, InitialCustomerState } from './types';
+import type { CustomerAction, CustomerState } from './types';
 
-const initialCustomerState: InitialCustomerState = {
+const initialCustomerState: CustomerState = {
     fullName: '',
     nationalId: '',
     createdAt: '',

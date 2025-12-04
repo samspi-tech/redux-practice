@@ -1,3 +1,5 @@
+import { useAppSelector } from '../../redux/hooks';
+
 const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en', {
         style: 'currency',
@@ -6,7 +8,9 @@ const formatCurrency = (value: number) => {
 };
 
 const BalanceDisplay = () => {
-    return <div className="balance">{formatCurrency(123456)}</div>;
+    const { balance } = useAppSelector((state) => state.account);
+
+    return <div className="balance">{formatCurrency(balance)}</div>;
 };
 
 export default BalanceDisplay;

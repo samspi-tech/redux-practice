@@ -1,9 +1,11 @@
-import type { AccountAction, InitialAccountState } from './types';
+import type { AppThunk } from '../../redux/types';
+import type { AccountAction, AccountState } from './types';
 
-const initialBalanceState: InitialAccountState = {
+const initialBalanceState: AccountState = {
     balance: 0,
     loan: 0,
     loanPurpose: '',
+    isLoading: false,
 };
 
 const accountReducer = (state = initialBalanceState, action: AccountAction) => {
@@ -11,6 +13,7 @@ const accountReducer = (state = initialBalanceState, action: AccountAction) => {
         case 'account/deposit': {
             return {
                 ...state,
+                isLoading: false,
                 balance: state.balance + action.payload,
             };
         }
@@ -39,16 +42,43 @@ const accountReducer = (state = initialBalanceState, action: AccountAction) => {
                 balance: state.balance - state.loan,
             };
         }
+        case 'account/convertingCurrency': {
+            return {
+                ...state,
+                isLoading: true,
+            };
+        }
         default: {
             return state;
         }
     }
 };
 
-export const deposit = (amount: number): AccountAction => {
-    return {
-        type: 'account/deposit',
-        payload: amount,
+export const deposit = (
+    amount: number,
+    currency: string
+): AccountAction | AppThunk<void> => {
+    if (currency === 'USD') {
+        return {
+            type: 'account/deposit',
+            payload: amount,
+        };
+    }
+
+    return async (dispatch) => {
+        dispatch({ type: 'account/convertingCurrency' });
+
+        const res = await fetch(
+            `https://api.frankfurter.dev/v1/latest?amount=${amount}&from=${currency}&to=USD`
+        );
+        const data = await res.json();
+
+        const convertedAmount = data.rates.USD;
+
+        dispatch({
+            type: 'account/deposit',
+            payload: convertedAmount,
+        });
     };
 };
 

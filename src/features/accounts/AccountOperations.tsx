@@ -10,23 +10,19 @@ const AccountOperations = () => {
     const [withdrawalAmount, setWithdrawalAmount] = useState('');
 
     const dispatch = useAppDispatch();
-    const {
-        balance,
-        loan: currLoan,
-        loanPurpose: currLoanPurpose,
-    } = useAppSelector((state) => {
-        return state.account;
-    });
 
-    console.log(balance);
+    const { loan: currLoan, loanPurpose: currLoanPurpose } = useAppSelector(
+        (state) => state.account
+    );
 
     const handleDeposit = () => {
         if (!depositAmount) return;
 
         const amount = Number(depositAmount);
 
-        dispatch(deposit(amount));
+        dispatch(deposit(amount, currency));
         setDepositAmount('');
+        setCurrency('USD');
     };
 
     const handleWithdraw = () => {

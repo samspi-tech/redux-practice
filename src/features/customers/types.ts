@@ -1,4 +1,4 @@
-export type InitialCustomerState = {
+export type CustomerState = {
     fullName: string;
     nationalId: string;
     createdAt: string;
@@ -7,7 +7,7 @@ export type InitialCustomerState = {
 export type CustomerAction =
     | {
           type: 'customer/createCustomer';
-          payload: InitialCustomerState;
+          payload: CustomerState;
       }
     | {
           type: 'customer/updateName';

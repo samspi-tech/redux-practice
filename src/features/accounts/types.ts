@@ -1,7 +1,8 @@
-export type InitialAccountState = {
+export type AccountState = {
     balance: number;
     loan: number;
     loanPurpose: string;
+    isLoading: boolean;
 };
 
 export type AccountAction =
@@ -16,4 +17,9 @@ export type AccountAction =
               amount: number;
           };
       }
-    | { type: 'account/payLoan' };
+    | {
+          type: 'account/payLoan';
+      }
+    | {
+          type: 'account/convertingCurrency';
+      };
