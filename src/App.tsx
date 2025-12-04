@@ -5,9 +5,9 @@ import BalanceDisplay from './RTK/features/accounts/BalanceDisplay';
 import { useAppSelector } from './RTK/redux/hooks';
 
 const App = () => {
-    const customerFullName = useAppSelector((state) => state.customer.fullName);
+    const { fullName } = useAppSelector((state) => state.customer);
 
-    const hasCustomer = customerFullName !== '';
+    const hasCustomer = fullName !== '';
 
     return (
         <div>

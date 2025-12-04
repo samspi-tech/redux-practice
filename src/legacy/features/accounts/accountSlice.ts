@@ -5,7 +5,7 @@ const initialState: AccountState = {
     balance: 0,
     loan: 0,
     loanPurpose: '',
-    isLoading: false,
+    isConverting: false,
 };
 
 const accountReducer = (state = initialState, action: AccountAction) => {
@@ -13,7 +13,7 @@ const accountReducer = (state = initialState, action: AccountAction) => {
         case 'account/deposit': {
             return {
                 ...state,
-                isLoading: false,
+                isConverting: false,
                 balance: state.balance + action.payload,
             };
         }
@@ -45,7 +45,7 @@ const accountReducer = (state = initialState, action: AccountAction) => {
         case 'account/convertingCurrency': {
             return {
                 ...state,
-                isLoading: true,
+                isConverting: true,
             };
         }
         default: {

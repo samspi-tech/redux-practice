@@ -2,7 +2,7 @@ export type AccountState = {
     balance: number;
     loan: number;
     loanPurpose: string;
-    isLoading: boolean;
+    isConverting: boolean;
 };
 
 export type AccountAction =
