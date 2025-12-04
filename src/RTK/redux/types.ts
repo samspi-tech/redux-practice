@@ -1,5 +1,5 @@
 import type { ThunkAction } from 'redux-thunk';
-import store from '../redux/store';
+import store from './store';
 import type { UnknownAction } from 'redux';
 
 export type AppStore = typeof store;

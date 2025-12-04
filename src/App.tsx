@@ -1,8 +1,8 @@
-import CreateCustomer from './features/customers/CreateCustomer';
-import Customer from './features/customers/Customer';
-import AccountOperations from './features/accounts/AccountOperations';
-import BalanceDisplay from './features/accounts/BalanceDisplay';
-import { useAppSelector } from './redux/hooks';
+import CreateCustomer from './RTK/features/customers/CreateCustomer';
+import Customer from './RTK/features/customers/Customer';
+import AccountOperations from './RTK/features/accounts/AccountOperations';
+import BalanceDisplay from './RTK/features/accounts/BalanceDisplay';
+import { useAppSelector } from './RTK/redux/hooks';
 
 const App = () => {
     const customerFullName = useAppSelector((state) => state.customer.fullName);
