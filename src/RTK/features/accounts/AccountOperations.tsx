@@ -20,9 +20,8 @@ const AccountOperations = () => {
 
         const amount = Number(depositAmount);
 
-        dispatch(deposit(amount, currency));
+        dispatch(deposit(amount));
         setDepositAmount('');
-        setCurrency('USD');
     };
 
     const handleWithdraw = () => {
@@ -39,7 +38,7 @@ const AccountOperations = () => {
 
         const amount = Number(loanAmount);
 
-        dispatch(requestLoan(amount, loanPurpose));
+        dispatch(requestLoan({ amount, loanPurpose }));
         setLoanAmount('');
         setLoanPurpose('');
     };

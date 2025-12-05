@@ -1,106 +1,46 @@
-import type { AppThunk } from '../../redux/types';
-import type { AccountAction, AccountState } from './types';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { AccountState, RequestLoan } from './types';
+import type { RootState } from '../../redux/types';
 
-const initialBalanceState: AccountState = {
+const initialState: AccountState = {
     balance: 0,
     loan: 0,
     loanPurpose: '',
     isConverting: false,
 };
 
-const accountReducer = (state = initialBalanceState, action: AccountAction) => {
-    switch (action.type) {
-        case 'account/deposit': {
-            return {
-                ...state,
-                isConverting: false,
-                balance: state.balance + action.payload,
-            };
-        }
-        case 'account/withdraw': {
-            return {
-                ...state,
-                balance: state.balance - action.payload,
-            };
-        }
-        case 'account/requestLoan': {
-            const hasLoan = state.loan > 0;
-            if (hasLoan) return state;
-
-            return {
-                ...state,
-                loan: action.payload.amount,
-                loanPurpose: action.payload.purpose,
-                balance: state.balance + action.payload.amount,
-            };
-        }
-        case 'account/payLoan': {
-            return {
-                ...state,
-                loan: 0,
-                loanPurpose: '',
-                balance: state.balance - state.loan,
-            };
-        }
-        case 'account/convertingCurrency': {
-            return {
-                ...state,
-                isConverting: true,
-            };
-        }
-        default: {
-            return state;
-        }
-    }
-};
-
-export const deposit = (
-    amount: number,
-    currency: string
-): AccountAction | AppThunk<void> => {
-    if (currency === 'USD') {
-        return {
-            type: 'account/deposit',
-            payload: amount,
-        };
-    }
-
-    return async (dispatch) => {
-        dispatch({ type: 'account/convertingCurrency' });
-
-        const res = await fetch(
-            `https://api.frankfurter.dev/v1/latest?amount=${amount}&from=${currency}&to=USD`
-        );
-        const data = await res.json();
-
-        const convertedAmount = data.rates.USD;
-
-        dispatch({
-            type: 'account/deposit',
-            payload: convertedAmount,
-        });
-    };
-};
-
-export const withdraw = (amount: number): AccountAction => {
-    return {
-        type: 'account/withdraw',
-        payload: amount,
-    };
-};
-
-export const requestLoan = (amount: number, purpose: string): AccountAction => {
-    return {
-        type: 'account/requestLoan',
-        payload: {
-            amount,
-            purpose,
+const accountSlice = createSlice({
+    name: 'account',
+    initialState,
+    reducers: {
+        deposit: (state, action: PayloadAction<number>) => {
+            state.balance += action.payload;
         },
-    };
-};
+        withdraw: (state, action: PayloadAction<number>) => {
+            state.balance -= action.payload;
+        },
+        requestLoan: (state, action: PayloadAction<RequestLoan>) => {
+            const hasLoan = state.loan > 0;
+            if (hasLoan) return;
 
-export const payLoan = (): AccountAction => {
-    return { type: 'account/payLoan' };
-};
+            state.loan = action.payload.amount;
+            state.loanPurpose = action.payload.loanPurpose;
+            state.balance += action.payload.amount;
+        },
+        payLoan: (state) => {
+            state.balance -= state.loan;
+            state.loan = 0;
+            state.loanPurpose = '';
+        },
+        convertingCurrency: (state) => {
+            state.isConverting = true;
+        },
+    },
+});
 
-export default accountReducer;
+export const { deposit, withdraw, requestLoan, payLoan, convertingCurrency } =
+    accountSlice.actions;
+
+export const selectAccount = (state: RootState) => state.account;
+
+export default accountSlice.reducer;

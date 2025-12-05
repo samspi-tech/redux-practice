@@ -5,21 +5,7 @@ export type AccountState = {
     isConverting: boolean;
 };
 
-export type AccountAction =
-    | {
-          type: 'account/deposit' | 'account/withdraw';
-          payload: number;
-      }
-    | {
-          type: 'account/requestLoan';
-          payload: {
-              purpose: string;
-              amount: number;
-          };
-      }
-    | {
-          type: 'account/payLoan';
-      }
-    | {
-          type: 'account/convertingCurrency';
-      };
+export type RequestLoan = {
+    amount: number;
+    loanPurpose: string;
+};
