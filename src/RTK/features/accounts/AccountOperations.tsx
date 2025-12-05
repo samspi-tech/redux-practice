@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { deposit, payLoan, requestLoan, withdraw } from './accountSlice';
+import {
+    deposit,
+    fetchConvertedCurrency,
+    payLoan,
+    requestLoan,
+    withdraw,
+} from './accountSlice';
 
 const AccountOperations = () => {
     const [currency, setCurrency] = useState('USD');
@@ -11,17 +17,23 @@ const AccountOperations = () => {
 
     const dispatch = useAppDispatch();
 
-    const { loan: currLoan, loanPurpose: currLoanPurpose } = useAppSelector(
-        (state) => state.account
-    );
+    const {
+        loan: currLoan,
+        loanPurpose: currLoanPurpose,
+        isConverting,
+    } = useAppSelector((state) => state.account);
 
     const handleDeposit = () => {
         if (!depositAmount) return;
 
         const amount = Number(depositAmount);
 
-        dispatch(deposit(amount));
+        currency === 'USD'
+            ? dispatch(deposit(amount))
+            : dispatch(fetchConvertedCurrency({ amount, currency }));
+
         setDepositAmount('');
+        setCurrency('USD');
     };
 
     const handleWithdraw = () => {
@@ -68,8 +80,10 @@ const AccountOperations = () => {
                         <option value="EUR">Euro</option>
                         <option value="GBP">British Pound</option>
                     </select>
-                    <button onClick={handleDeposit}>
-                        Deposit {depositAmount}
+                    <button onClick={handleDeposit} disabled={isConverting}>
+                        {isConverting
+                            ? 'Converting...'
+                            : `Deposit ${depositAmount}`}
                     </button>
                 </div>
                 <div>
