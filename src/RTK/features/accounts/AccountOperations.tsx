@@ -9,12 +9,6 @@ import {
 } from './accountSlice';
 
 const AccountOperations = () => {
-    const [currency, setCurrency] = useState('USD');
-    const [loanAmount, setLoanAmount] = useState('');
-    const [loanPurpose, setLoanPurpose] = useState('');
-    const [depositAmount, setDepositAmount] = useState('');
-    const [withdrawalAmount, setWithdrawalAmount] = useState('');
-
     const dispatch = useAppDispatch();
 
     const {
@@ -22,6 +16,12 @@ const AccountOperations = () => {
         loanPurpose: currLoanPurpose,
         isConverting,
     } = useAppSelector((state) => state.account);
+
+    const [currency, setCurrency] = useState('USD');
+    const [loanAmount, setLoanAmount] = useState('');
+    const [loanPurpose, setLoanPurpose] = useState('');
+    const [depositAmount, setDepositAmount] = useState('');
+    const [withdrawalAmount, setWithdrawalAmount] = useState('');
 
     const handleDeposit = () => {
         if (!depositAmount) return;
@@ -48,9 +48,9 @@ const AccountOperations = () => {
     const handleRequestLoan = () => {
         if (!loanAmount && !loanPurpose) return;
 
-        const amount = Number(loanAmount);
+        const loan = Number(loanAmount);
 
-        dispatch(requestLoan({ amount, loanPurpose }));
+        dispatch(requestLoan({ loan, loanPurpose }));
         setLoanAmount('');
         setLoanPurpose('');
     };

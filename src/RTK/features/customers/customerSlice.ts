@@ -1,55 +1,27 @@
-import type { CustomerAction, CustomerState } from './types';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { CustomerState, CreateCustomer } from './types';
 
-const initialCustomerState: CustomerState = {
+const initialState: CustomerState = {
     fullName: '',
     nationalId: '',
     createdAt: '',
 };
 
-const customerReducer = (
-    state = initialCustomerState,
-    action: CustomerAction
-) => {
-    switch (action.type) {
-        case 'customer/createCustomer': {
-            return {
-                ...state,
-                fullName: action.payload.fullName,
-                nationalId: action.payload.nationalId,
-                createdAt: action.payload.createdAt,
-            };
-        }
-        case 'customer/updateName': {
-            return {
-                ...state,
-                fullName: action.payload,
-            };
-        }
-        default: {
-            return state;
-        }
-    }
-};
-
-export const createCustomer = (
-    fullName: string,
-    nationalId: string
-): CustomerAction => {
-    return {
-        type: 'customer/createCustomer',
-        payload: {
-            fullName,
-            nationalId,
-            createdAt: new Date().toISOString(),
+const customerSlice = createSlice({
+    name: 'customer',
+    initialState,
+    reducers: {
+        createCustomer: (state, action: PayloadAction<CreateCustomer>) => {
+            state.fullName = action.payload.fullName;
+            state.nationalId = action.payload.nationalId;
+            state.createdAt = new Date().toISOString();
         },
-    };
-};
+        updateCustomer: (state, action: PayloadAction<string>) => {
+            state.fullName = action.payload;
+        },
+    },
+});
 
-export const updateName = (fullName: string): CustomerAction => {
-    return {
-        type: 'customer/updateName',
-        payload: fullName,
-    };
-};
+export const { createCustomer, updateCustomer } = customerSlice.actions;
 
-export default customerReducer;
+export default customerSlice.reducer;

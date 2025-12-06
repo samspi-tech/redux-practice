@@ -4,7 +4,6 @@ import {
     type PayloadAction,
 } from '@reduxjs/toolkit';
 import type { AccountState, RequestLoan } from './types';
-import type { RootState } from '../../redux/types';
 
 const initialState: AccountState = {
     balance: 0,
@@ -39,9 +38,9 @@ const accountSlice = createSlice({
             const hasLoan = state.loan > 0;
             if (hasLoan) return;
 
-            state.loan = action.payload.amount;
+            state.loan = action.payload.loan;
             state.loanPurpose = action.payload.loanPurpose;
-            state.balance += action.payload.amount;
+            state.balance += action.payload.loan;
         },
         payLoan: (state) => {
             state.balance -= state.loan;
@@ -65,7 +64,5 @@ const accountSlice = createSlice({
 });
 
 export const { deposit, withdraw, requestLoan, payLoan } = accountSlice.actions;
-
-export const selectAccount = (state: RootState) => state.account;
 
 export default accountSlice.reducer;

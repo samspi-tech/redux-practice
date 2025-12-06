@@ -1,11 +1,9 @@
-export type AccountState = {
-    balance: number;
+export interface RequestLoan {
     loan: number;
     loanPurpose: string;
-    isConverting: boolean;
-};
+}
 
-export type RequestLoan = {
-    amount: number;
-    loanPurpose: string;
-};
+export interface AccountState extends RequestLoan {
+    balance: number;
+    isConverting: boolean;
+}
