@@ -27,10 +27,13 @@ const AccountOperations = () => {
         if (!depositAmount) return;
 
         const amount = Number(depositAmount);
+        const isUsdCurrency = currency === 'USD';
 
-        currency === 'USD'
-            ? dispatch(deposit(amount))
-            : dispatch(fetchConvertedCurrency({ amount, currency }));
+        if (isUsdCurrency) {
+            dispatch(deposit(amount));
+        } else {
+            dispatch(fetchConvertedCurrency({ amount, currency }));
+        }
 
         setDepositAmount('');
         setCurrency('USD');
